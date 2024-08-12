@@ -1,0 +1,52 @@
+Packer:
+
+Packer is a open source tool which will used to create images for multiple platforms eg. aws, azure, GCP and vmware etc.
+
+core components of packer:
+
+1. Source: This defines where the base image comes from, such an ISO, and AMI or another existing image. If we want to use image from aws, we need to mention aws, or if we want to use image from vmware we need to mention vmware.
+
+2. Provisioner: Provisioners are used to install softwares, run scripts and setup the environment, by default packer having file and shell script provisioners.
+If we want we can add Ansible and chef provisioners.
+
+3. Builders: Builders define the target platform and how packer should create the machine instance for building the image. This could be a virtual machine or cloud instance. if we want to setup the image in aws then the target platform will be aws.
+
+4. Post processors: These are used to perform additional tasks after the image is built. eg. modify the final image, convert into other formats or upload to cloud provider.
+
+5. Communicators: Communicators are used to interact with the machine instance during building process. SSH and winrm are common communication methods.
+
+6. Variables: for defining values.
+
+
+Packer workflow:
+
+1. Check for any vpc info
+2. search for base image.
+3. create temporary key pair.
+4. create temporary security group.
+5. Add inbound to security.
+6. Launch an instance with base image.
+7. SSH to the instance.
+8. stop instance after running the script.
+9. once AMI is created, terminate the instance.
+10. clean up the volumes if used any.
+
+
+packer vs AWS user data:
+
+packer will create images and if any software installation mentioned the configuration packer will install required softwares while building the image.
+
+But the aws user data will install the softwares mentioned while instance launch time.
+
+so aws user data will take time to spin up the instance it may effect the business.
+
+
+commands:
+
+packer init .
+
+packer fmt 
+
+packer validate
+
+packer build rhel.pkr.hcl
